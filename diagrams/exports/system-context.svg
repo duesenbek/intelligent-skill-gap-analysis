@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 600" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 22px; font-weight: 700; fill: #0f172a; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #475569; }
+      .card { rx: 8; stroke-width: 1.8; }
+      .actor { fill: #f8fafc; stroke: #2563eb; }
+      .system-box { fill: #f0f9ff; stroke: #0284c7; stroke-width: 2; stroke-dasharray: 6 4; rx: 12; }
+      .system-core { fill: #0284c7; stroke: #0369a1; stroke-width: 2; rx: 10; }
+      .external { fill: #f8fafc; stroke: #64748b; stroke-width: 1.5; rx: 8; }
+      .text-actor-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #1e3a8a; text-anchor: middle; }
+      .text-ext-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 600; fill: #1e293b; text-anchor: middle; }
+      .label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #64748b; text-anchor: middle; }
+      .label-white { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #e0f2fe; text-anchor: middle; }
+      .title-white { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 18px; font-weight: 700; fill: #ffffff; text-anchor: middle; }
+      .line { stroke: #334155; stroke-width: 1.6; fill: none; marker-end: url(#arrow-dark); }
+      .line-dash { stroke: #0284c7; stroke-width: 1.4; stroke-dasharray: 5 3; fill: none; marker-end: url(#arrow-blue); }
+    </style>
+    <marker id="arrow-dark" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#334155" />
+    </marker>
+    <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#0284c7" />
+    </marker>
+  </defs>
+
+  <!-- Solid Canvas Background -->
+  <rect width="1050" height="600" class="bg" rx="10" />
+
+  <!-- Title Header -->
+  <text x="525" y="40" class="title" text-anchor="middle">CareerLens — System Context Diagram (C4 Level 1)</text>
+  <text x="525" y="62" class="subtitle" text-anchor="middle">System boundary, primary user roles, and external reference/evaluation dependencies</text>
+
+  <!-- Human Actors (Left Column) -->
+  <rect x="40" y="110" width="220" height="85" class="card actor" />
+  <text x="150" y="145" class="text-actor-title">Student / Graduate</text>
+  <text x="150" y="167" class="label">Enters skills &amp; target role</text>
+  <text x="150" y="181" class="label">Reviews prioritized gaps &amp; roadmaps</text>
+
+  <rect x="40" y="240" width="220" height="85" class="card actor" />
+  <text x="150" y="275" class="text-actor-title">Early-Career Professional</text>
+  <text x="150" y="297" class="label">Assesses competency deltas</text>
+  <text x="150" y="311" class="label">Identifies transition requirements</text>
+
+  <rect x="40" y="370" width="220" height="85" class="card actor" />
+  <text x="150" y="405" class="text-actor-title">Project Team / Admin</text>
+  <text x="150" y="427" class="label">Maintains approved catalog</text>
+  <text x="150" y="441" class="label">Configures roles &amp; weights</text>
+
+  <!-- System Boundary (Center) -->
+  <rect x="340" y="100" width="370" height="460" class="system-box" />
+  <text x="525" y="130" class="text-actor-title" fill="#0369a1">System Boundary: CareerLens Platform</text>
+
+  <rect x="375" y="170" width="300" height="340" class="system-core" />
+  <text x="525" y="270" class="title-white">CareerLens</text>
+  <text x="525" y="295" class="label-white" font-size="14">Intelligent Skill Gap Analysis</text>
+  <text x="525" y="315" class="label-white" font-size="14">&amp; Career Recommendation</text>
+  <line x1="420" y1="340" x2="630" y2="340" stroke="#bae6fd" stroke-width="1" />
+  <text x="525" y="370" class="label-white">• Responsive Web UI</text>
+  <text x="525" y="395" class="label-white">• Rule-Based Gap Engine (gap × importance)</text>
+  <text x="525" y="420" class="label-white">• Personalized Roadmap Generator</text>
+  <text x="525" y="445" class="label-white">• Evaluation Test Harness</text>
+
+  <!-- External Entities (Right Column) -->
+  <rect x="780" y="110" width="230" height="85" class="card external" />
+  <text x="895" y="145" class="text-ext-title">Curated Role &amp; Skill Data</text>
+  <text x="895" y="167" class="label">European ESCO &amp; US O*NET</text>
+  <text x="895" y="181" class="label">Standardized competencies</text>
+
+  <rect x="780" y="225" width="230" height="75" class="card external" />
+  <text x="895" y="258" class="text-ext-title">Authentication Provider</text>
+  <text x="895" y="278" class="label">(Optional for MVP / Sign-in)</text>
+
+  <rect x="780" y="330" width="230" height="75" class="card external" />
+  <text x="895" y="363" class="text-ext-title">Curated Learning Resources</text>
+  <text x="895" y="383" class="label">Open MOOC &amp; documentation links</text>
+
+  <rect x="780" y="435" width="230" height="85" class="card external" />
+  <text x="895" y="468" class="text-ext-title">Independent Evaluator</text>
+  <text x="895" y="490" class="label">Academic supervisor &amp; experts</text>
+  <text x="895" y="504" class="label">Reviews sample outputs &amp; metrics</text>
+
+  <!-- Connecting Lines -->
+  <!-- Students to System -->
+  <path d="M 260 152 L 375 220" class="line" />
+  <!-- EarlyCareer to System -->
+  <path d="M 260 282 L 375 282" class="line" />
+  <!-- Admin to System -->
+  <path d="M 260 412 L 375 390" class="line" />
+
+  <!-- System to Externals -->
+  <path d="M 675 220 L 780 152" class="line" />
+  <path d="M 675 282 L 780 262" class="line-dash" />
+  <path d="M 675 350 L 780 367" class="line-dash" />
+  <path d="M 780 477 L 675 440" class="line" />
+</svg>

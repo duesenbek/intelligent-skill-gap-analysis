@@ -1,0 +1,30 @@
+flowchart LR
+    User[Student / Graduate / Early-career Professional]
+    Admin[Project Team / Administrator]
+    Expert[Independent Expert / Evaluator]
+
+    subgraph System[CareerLens]
+        UC1([Enter or update skill profile])
+        UC2([Select target software role])
+        UC3([Run skill-gap analysis])
+        UC4([View prioritized skill gaps])
+        UC5([View personalized learning recommendations])
+        UC6([Review analysis explanation])
+        UC7([Maintain curated role and skill catalogue])
+        UC8([Evaluate sample results])
+    end
+
+    User --> UC1
+    User --> UC2
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC6
+    Admin --> UC7
+    Expert --> UC8
+
+    UC3 -.->|uses| UC1
+    UC3 -.->|uses| UC2
+    UC4 -.->|analysis output| UC3
+    UC5 -.->|prioritized gaps| UC3
+    UC6 -.->|explains| UC4

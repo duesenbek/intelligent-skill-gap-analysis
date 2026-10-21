@@ -1,0 +1,24 @@
+flowchart LR
+    Student[Student / Graduate]
+    EarlyCareer[Early-career Professional]
+    Supervisor[Project Team / Administrator]
+
+    subgraph CL[CareerLens System]
+        Web[Responsive Web Application]
+    end
+
+    SkillData[(Curated Role and Skill Catalogue)]
+    Identity[Authentication Provider<br/>Optional for MVP]
+    Learning[External Learning Resources<br/>Links only; optional]
+    Evaluator[Independent Evaluator / Expert]
+
+    Student -->|Enters skills and target role| Web
+    EarlyCareer -->|Enters skills and target role| Web
+    Web -->|Shows skill gaps and roadmap| Student
+    Web -->|Shows skill gaps and roadmap| EarlyCareer
+
+    Supervisor -->|Maintains approved catalogue and configuration| Web
+    Web -->|Reads role requirements| SkillData
+    Web -.->|Sign-in, if implemented| Identity
+    Web -.->|Displays curated learning links| Learning
+    Evaluator -->|Reviews sample outputs| Web

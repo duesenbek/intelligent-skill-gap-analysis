@@ -1,22 +1,37 @@
 # CareerLens — System Architecture Diagrams
 
-This directory organizes the architectural, structural, and behavioral diagrams for the CareerLens system.
-
-## 1. Primary Architecture Specifications
-
-Detailed architecture diagrams rendered in Mermaid format are integrated directly into the architecture documentation:
-- [System Architecture & Design Document (docs/07-architecture/README.md)](../docs/07-architecture/README.md)
-
-### Available Diagrams:
-1. **System Context Diagram (C4 Level 1):** Defines system boundaries, primary human actors (Students, Evaluators), and external taxonomy references (ESCO / O*NET).
-2. **Use Case Diagram:** Maps out the primary user interactions (role selection, skill profile assessment, gap diagnostics, and roadmap tracking).
-3. **Component Diagram (C4 Level 3):** Illustrates the internal decomposition of the Backend API, the analytical engines (`Gap Analysis Engine`, `Recommendation Engine`), the database persistence layer, and the Single Page Application client.
-4. **Algorithmic Flow:** Outlines the deterministic gap calculation pipeline:
-   $$\text{gap}_i = \max(0, \text{required}_i - \text{current}_i), \quad \text{priority}_i = \text{gap}_i \times \text{importance}_i$$
+This directory contains the initial architecture diagrams for CareerLens, designed in alignment with the diploma project proposal and the MVP scope.
 
 ---
 
-## 2. Directory Layout for External Exports
+## 1. Diagrams Overview
 
-- `src/` — Editable diagram source files (`.drawio`, `.puml`, `.mmd`).
-- `exports/` — High-resolution exported images (`.svg`, `.png`) prepared for inclusion in the formal diploma thesis report.
+| Diagram | Purpose | Editable Source (`src/`) | Vector Export (`exports/`) | Full Specification |
+|---|---|---|---|---|
+| **System Context Diagram** (C4 Level 1) | Identifies the system boundary, primary users (students, professionals, admins), and external entities (ESCO/O*NET catalog, evaluator). | [system-context.mmd](src/system-context.mmd) | [system-context.svg](exports/system-context.svg) | [docs/07-architecture/system-context.md](../docs/07-architecture/system-context.md) |
+| **Use Case Diagram** | Outlines core user scenarios (profiling, role selection, analysis, prioritized gaps, roadmaps), administrative maintenance, and evaluation. | [use-case.mmd](src/use-case.mmd) | [use-case.svg](exports/use-case.svg) | [docs/07-architecture/use-case.md](../docs/07-architecture/use-case.md) |
+| **Component Diagram** (Logical Architecture) | Decomposes Web UI, Backend API, Validation, Profile Service, Catalog Service, Gap Analysis Engine, Recommendation Engine, and Storage. | [component-diagram.mmd](src/component-diagram.mmd) | [component-diagram.svg](exports/component-diagram.svg) | [docs/07-architecture/component-diagram.md](../docs/07-architecture/component-diagram.md) |
+
+---
+
+## 2. Directory Layout
+
+```
+diagrams/
+├── README.md
+├── src/
+│   ├── system-context.mmd       # Editable Mermaid source
+│   ├── use-case.mmd             # Editable Mermaid source
+│   └── component-diagram.mmd    # Editable Mermaid source
+└── exports/
+    ├── system-context.svg       # High-contrast readable vector graphic
+    ├── use-case.svg             # High-contrast readable vector graphic
+    └── component-diagram.svg    # High-contrast readable vector graphic
+```
+
+---
+
+## 3. Rendering in Markdown
+
+All architectural diagrams are authored in standard Mermaid format and render natively in GitHub and markdown viewers:
+- [System Architecture Documentation (docs/07-architecture/README.md)](../docs/07-architecture/README.md)

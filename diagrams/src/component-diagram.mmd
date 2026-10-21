@@ -1,0 +1,37 @@
+flowchart TB
+    Browser[User Browser]
+    UI[Responsive Web UI]
+    API[Backend API / Application Service]
+
+    Validation[Input Validation]
+    Profile[Skill Profile Service]
+    Catalogue[Role and Skill Catalogue Service]
+    Gap[Skill-Gap Analysis Engine]
+    Recommendation[Recommendation Engine]
+    Results[Results and Explanation Presenter]
+    Evaluation[Evaluation / Test Harness]
+
+    DB[(Application Database)]
+    Curated[(Curated Role and Skill Data)]
+    Resources[Curated Learning Resource Links]
+
+    Browser --> UI
+    UI -->|HTTPS requests| API
+    API --> Validation
+    API --> Profile
+    API --> Catalogue
+    API --> Gap
+    API --> Recommendation
+    API --> Results
+
+    Profile <--> DB
+    Catalogue --> Curated
+    Gap --> Catalogue
+    Gap --> Profile
+    Recommendation --> Gap
+    Recommendation --> Resources
+    Results --> Gap
+    Results --> Recommendation
+    Evaluation --> Gap
+    Evaluation --> Recommendation
+    Evaluation -->|records test outcomes| DB
