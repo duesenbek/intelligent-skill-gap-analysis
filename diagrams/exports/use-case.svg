@@ -11,15 +11,15 @@
       .boundary { fill: #f0fdf4; stroke: #0284c7; stroke-width: 1.8; stroke-dasharray: 6 4; rx: 14; }
       .boundary-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #0369a1; }
       
-      .uc-pill { fill: #ffffff; stroke: #0284c7; stroke-width: 1.5; rx: 24; }
+      .uc-pill { fill: #ffffff; stroke: #0284c7; stroke-width: 1.6; rx: 24; }
       .uc-core { fill: #eff6ff; stroke: #2563eb; stroke-width: 2.2; rx: 24; }
-      .uc-admin { fill: #fefce8; stroke: #ca8a04; stroke-width: 1.5; rx: 24; }
-      .uc-expert { fill: #fdf2f8; stroke: #db2777; stroke-width: 1.5; rx: 24; }
+      .uc-admin { fill: #fefce8; stroke: #ca8a04; stroke-width: 1.6; rx: 24; }
+      .uc-expert { fill: #fdf2f8; stroke: #db2777; stroke-width: 1.6; rx: 24; }
       
       .uc-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 600; fill: #0f172a; text-anchor: middle; }
       .uc-text-core { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #1d4ed8; text-anchor: middle; }
       
-      .dep-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #0284c7; font-weight: 600; text-anchor: middle; }
+      .dep-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #0284c7; font-weight: 700; text-anchor: middle; }
       .line-assoc { stroke: #334155; stroke-width: 1.6; fill: none; }
       .line-dep { stroke: #0284c7; stroke-width: 1.5; stroke-dasharray: 5 3; fill: none; marker-end: url(#arrow-blue); }
     </style>
@@ -28,12 +28,12 @@
     </marker>
   </defs>
 
-  <!-- Solid White Background -->
+  <!-- Solid White Background for crisp rendering across themes -->
   <rect width="1150" height="780" class="bg" rx="10" />
 
   <!-- Title Header -->
-  <text x="575" y="38" class="title" text-anchor="middle">CareerLens — Use Case Diagram</text>
-  <text x="575" y="60" class="subtitle" text-anchor="middle">Structured user workflows, analytical dependencies, catalog maintenance, and evaluation</text>
+  <text x="575" y="38" class="title" text-anchor="middle">CareerLens — Use Case Diagram (UML Standard)</text>
+  <text x="575" y="60" class="subtitle" text-anchor="middle">Formal UML actors, core scenarios, &lt;&lt;include&gt;&gt; prerequisites, and &lt;&lt;extend&gt;&gt; relationships</text>
 
   <!-- System Boundary -->
   <rect x="280" y="85" width="830" height="660" class="boundary" />
@@ -55,7 +55,7 @@
 
   <!-- USE CASES -->
 
-  <!-- Top Row: Input Use Cases (Side-by-side, no vertical obstruction) -->
+  <!-- Top Row: Input Use Cases (Side-by-side, perfectly decoupled) -->
   <rect x="320" y="145" width="280" height="50" class="uc-pill" />
   <text x="460" y="176" class="uc-text">UC-01: Enter / Update Skill Profile</text>
 
@@ -63,61 +63,54 @@
   <text x="810" y="176" class="uc-text">UC-02: Select Target Software Role</text>
 
   <!-- Middle Row: Central Processing Action -->
-  <rect x="475" y="255" width="320" height="56" class="uc-core" />
-  <text x="635" y="290" class="uc-text-core">UC-03: Run Skill-Gap Analysis</text>
+  <rect x="475" y="260" width="320" height="56" class="uc-core" />
+  <text x="635" y="295" class="uc-text-core">UC-03: Run Skill-Gap Analysis</text>
 
   <!-- Output Row: Diagnostic and Roadmap Results -->
-  <rect x="320" y="375" width="280" height="50" class="uc-pill" />
-  <text x="460" y="406" class="uc-text">UC-04: View Prioritized Skill Gaps</text>
+  <rect x="320" y="380" width="280" height="50" class="uc-pill" />
+  <text x="460" y="411" class="uc-text">UC-04: View Prioritized Skill Gaps</text>
 
-  <rect x="670" y="375" width="280" height="50" class="uc-pill" />
-  <text x="810" y="406" class="uc-text">UC-05: View Learning Roadmaps</text>
+  <rect x="670" y="380" width="280" height="50" class="uc-pill" />
+  <text x="810" y="411" class="uc-text">UC-05: View Learning Roadmaps</text>
 
   <!-- Explanation Row -->
-  <rect x="475" y="470" width="320" height="50" class="uc-pill" />
-  <text x="635" y="501" class="uc-text">UC-06: Review Analysis Explanation</text>
+  <rect x="475" y="480" width="320" height="50" class="uc-pill" />
+  <text x="635" y="511" class="uc-text">UC-06: Review Analysis Explanation</text>
 
   <!-- Admin & Evaluation Row -->
-  <rect x="320" y="570" width="310" height="50" class="uc-admin" />
-  <text x="475" y="601" class="uc-text" fill="#854d0e">UC-07: Maintain Role &amp; Skill Catalogue</text>
+  <rect x="320" y="580" width="310" height="50" class="uc-admin" />
+  <text x="475" y="611" class="uc-text" fill="#854d0e">UC-07: Maintain Role &amp; Skill Catalogue</text>
 
   <rect x="670" y="650" width="310" height="50" class="uc-expert" />
   <text x="825" y="681" class="uc-text" fill="#9d174d">UC-08: Evaluate Sample Results</text>
 
-  <!-- ACTOR ASSOCIATIONS (Clean direct lines, zero node crossing) -->
+  <!-- ACTOR ASSOCIATIONS (Direct lines with zero intersections) -->
   <!-- User to UC-01, UC-03, UC-04 -->
   <line x1="240" y1="190" x2="320" y2="170" class="line-assoc" />
-  <line x1="240" y1="215" x2="475" y2="275" class="line-assoc" />
-  <line x1="240" y1="240" x2="320" y2="390" class="line-assoc" />
+  <line x1="240" y1="215" x2="475" y2="280" class="line-assoc" />
+  <line x1="240" y1="240" x2="320" y2="395" class="line-assoc" />
 
   <!-- Admin to UC-07 -->
-  <line x1="240" y1="560" x2="320" y2="590" class="line-assoc" />
+  <line x1="240" y1="560" x2="320" y2="595" class="line-assoc" />
 
   <!-- Expert to UC-08 -->
   <line x1="240" y1="675" x2="670" y2="675" class="line-assoc" />
 
-  <!-- INTERNAL USE-CASE DEPENDENCIES (Clear diagonal arrows with NO crossing through nodes) -->
-  <!-- UC-03 includes UC-01 (arrow points to UC-01) -->
-  <path d="M 570 255 L 500 195" class="line-dep" />
-  <text x="500" y="235" class="dep-text">&lt;&lt;include&gt;&gt;</text>
+  <!-- FORMAL UML DEPENDENCIES (Dashed Arrows with clean non-crossing geometry) -->
+  
+  <!-- UC-03 includes UC-01: Base (UC-03) -> Included (UC-01) -->
+  <path d="M 570 260 L 500 195" class="line-dep" />
+  <text x="505" y="240" class="dep-text">&lt;&lt;include&gt;&gt;</text>
 
-  <!-- UC-03 includes UC-02 (arrow points to UC-02) -->
-  <path d="M 700 255 L 770 195" class="line-dep" />
-  <text x="765" y="235" class="dep-text">&lt;&lt;include&gt;&gt;</text>
+  <!-- UC-03 includes UC-02: Base (UC-03) -> Included (UC-02) -->
+  <path d="M 700 260 L 770 195" class="line-dep" />
+  <text x="765" y="240" class="dep-text">&lt;&lt;include&gt;&gt;</text>
 
-  <!-- UC-03 outputs to UC-04 -->
-  <path d="M 570 311 L 500 375" class="line-dep" />
-  <text x="500" y="340" class="dep-text">output gaps</text>
+  <!-- UC-05 extends UC-04: Extension (UC-05) -> Base (UC-04) -->
+  <path d="M 670 405 L 600 405" class="line-dep" />
+  <text x="635" y="395" class="dep-text">&lt;&lt;extend&gt;&gt;</text>
 
-  <!-- UC-03 outputs to UC-05 -->
-  <path d="M 700 311 L 770 375" class="line-dep" />
-  <text x="765" y="340" class="dep-text">prioritized</text>
-
-  <!-- UC-04 extends into UC-06 (explanation) -->
-  <path d="M 500 425 L 570 470" class="line-dep" />
-  <text x="500" y="460" class="dep-text">&lt;&lt;extend&gt;&gt;</text>
-
-  <!-- UC-05 references UC-06 -->
-  <path d="M 770 425 L 700 470" class="line-dep" />
-  <text x="765" y="460" class="dep-text">explains</text>
+  <!-- UC-06 extends UC-04: Extension (UC-06) -> Base (UC-04) -->
+  <path d="M 570 480 L 500 430" class="line-dep" />
+  <text x="505" y="465" class="dep-text">&lt;&lt;extend&gt;&gt;</text>
 </svg>

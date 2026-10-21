@@ -68,18 +68,19 @@ Synthetic profiles are useful for repeatable functional testing but do not demon
 
 ## 7. Requirement-to-Test Traceability
 
-| Requirement ID | Requirement | Test scenario | Evidence |
+| Requirement ID | Requirement Description | Test Scenario / Procedure | Verifiable Evidence |
 |---|---|---|---|
-| FR-01 | User can enter a skill profile | TC-01: valid and invalid profile inputs | Test results and validation output |
-| FR-02 | User can select a target role | TC-02: valid role and unknown role | Test results |
-| FR-03 | System calculates skill gaps | TC-03: compare against known reference cases | Expected-versus-actual table |
-| FR-04 | System prioritizes gaps | TC-04: check priority order, including ties | Expected-versus-actual table |
-| FR-05 | System provides recommendations linked to gaps | TC-05: verify recommendation-to-gap traceability | Recommendation review sheet |
-| NFR-01 | Analysis response time meets the target | TC-06: repeated requests under documented conditions | Timing report |
-| NFR-02 | Core algorithm has sufficient automated coverage | TC-07: run coverage tool | Coverage report |
-| NFR-03 | Intended users can understand the report | TC-08: usability tasks and SUS questionnaire | Task observations and SUS scores |
-
-Adjust the requirement IDs to match the final requirements specification.
+| **FR-01** | User can select a target professional role | TC-01: Valid role selection from catalog and invalid/unknown role handling | Test execution log, UI selection state |
+| **FR-02** | User can input current technical skills | TC-02: Boundary checks, numeric range validation (1–5), missing input rejection | Validation error log, state persistence |
+| **FR-03** | System compares skills to role profile | TC-03: Execution against fixed benchmark profiles with expected delta labels | Expected-vs-actual comparison matrix |
+| **FR-04** | System identifies and prioritizes skill gaps | TC-04: Priority scoring verification ($gap \times importance$) including score ties | Priority rank correlation report |
+| **FR-05** | System generates personalized roadmap | TC-05: Verify recommendation-to-gap traceability and learning action linkage | Recommendation audit checklist |
+| **FR-06** | System presents results via web interface | TC-06: Cross-browser rendering and interactive gap visualization display | UI test suite, visual inspection |
+| **FR-07** | User can save and retrieve analysis | TC-07: Persistence and session retrieval across reloads | Database query logs, API test results |
+| **NFR-01** | Analysis response time meets target ($\le 2.5$ s) | TC-08: Repeated requests under documented local/staging test conditions | Latency distribution report (p50, p95) |
+| **NFR-02** | Target user completes analysis without assistance (SUS $\ge 75$) | TC-09: Usability test with $\ge 15$ participants and standardized SUS survey | Task observation logs, SUS score dataset |
+| **NFR-03** | Security: no credentials stored in plain text | TC-10: Configuration and environment audit against secrets | Security review checklist, `.env.example` audit |
+| **NFR-04** | Maintainability: new role profile added without code changes | TC-11: Load new JSON/DB occupational profile and verify analysis execution | Automated catalog integration test |
 
 ## 8. Acceptance Criteria
 
