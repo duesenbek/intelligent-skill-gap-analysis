@@ -2,7 +2,7 @@
 
 **Document Version:** 1.0  
 **Status:** In Review — Task `CL-9`  
-**Author:** Asylbek Agabekuly (SE-2422, `240612@astanait.edu.kz`)  
+**Author:** Asylbek Agabekuly  
 **Project:** CareerLens — Intelligent Skill Gap Analysis and Personalized Career Recommendation System  
 **Traceable Artifacts:** Traced to `01-project-proposal.md`, `07-architecture/`, and `08-verification-and-evaluation.md`
 
