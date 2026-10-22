@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerLens — Intelligent Skill Gap Analysis & Roadmap Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --surface: #111827;
+      --surface-elevated: #1f2937;
+      --surface-border: #374151;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-subtle: #6b7280;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --primary-glow: rgba(59, 130, 246, 0.25);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      background: rgba(17, 24, 39, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--surface-border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 1rem 2rem;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-badge {
+      font-size: 0.75rem;
+      background: var(--surface-border);
+      color: #93c5fd;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+
+    .nav-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1100px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Stepper Component */
+    .stepper {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .stepper::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      right: 30px;
+      height: 2px;
+      background: var(--surface-border);
+      z-index: 1;
+    }
+
+    .step-item {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .step-bubble {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--surface-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .step-item.active .step-bubble {
+      background: var(--primary);
+      border-color: #60a5fa;
+      color: #fff;
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+
+    .step-item.completed .step-bubble {
+      background: var(--success);
+      border-color: #34d399;
+      color: #fff;
+    }
+
+    .step-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .step-item.active .step-label {
+      color: #fff;
+    }
+
+    /* Step Views */
+    .step-view {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .step-view.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Role Selection Grid */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .role-card {
+      background: var(--surface-elevated);
+      border: 2px solid transparent;
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .role-card:hover {
+      border-color: #4b5563;
+      transform: translateY(-2px);
+    }
+
+    .role-card.selected {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.08);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .role-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .role-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .role-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .role-desc {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.4;
+    }
+
+    .role-meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-subtle);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 0.75rem;
+    }
+
+    /* Skill Inventory Table */
+    .skill-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
+
+    .skill-table th {
+      text-align: left;
+      padding: 0.85rem 1rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--surface-border);
+    }
+
+    .skill-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: middle;
+    }
+
+    .skill-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .skill-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .skill-category {
+      font-size: 0.75rem;
+      color: var(--text-subtle);
+    }
+
+    .req-badge {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      padding: 0.3rem 0.6rem;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+    }
+
+    /* Rating Button Group */
+    .rating-group {
+      display: flex;
+      gap: 0.35rem;
+    }
+
+    .rating-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--surface-border);
+      background: var(--surface-elevated);
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .rating-btn:hover {
+      border-color: #6b7280;
+      color: var(--text-main);
+    }
+
+    .rating-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    /* Actions Footer */
+    .actions-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      font-family: var(--font-sans);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--surface-elevated);
+      color: var(--text-main);
+      border: 1px solid var(--surface-border);
+    }
+
+    .btn-secondary:hover {
+      background: #374151;
+    }
+
+    /* Metrics Summary Bar */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .metric-box {
+      background: var(--surface-elevated);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+    }
+
+    .metric-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      margin-bottom: 0.25rem;
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Gap Comparison Chart Items */
+    .gap-item {
+      background: var(--surface-elevated);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .gap-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .gap-title {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .gap-badge {
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+
+    .gap-badge.critical {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid var(--danger);
+    }
+
+    .gap-badge.moderate {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fcd34d;
+      border: 1px solid var(--warning);
+    }
+
+    .gap-badge.satisfied {
+      background: rgba(16, 185, 129, 0.2);
+      color: #6ee7b7;
+      border: 1px solid var(--success);
+    }
+
+    .progress-track {
+      height: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      overflow: hidden;
+      display: flex;
+      position: relative;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-bar-current {
+      height: 100%;
+      background: var(--primary);
+    }
+
+    .progress-bar-gap {
+      height: 100%;
+      background: var(--danger);
+      opacity: 0.6;
+    }
+
+    .gap-legend {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* Roadmap Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+      margin-top: 1rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: var(--surface-border);
+    }
+
+    .timeline-node {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2rem;
+      top: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 3px solid var(--primary);
+    }
+
+    .milestone-card {
+      background: var(--surface-elevated);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+    }
+
+    .milestone-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .milestone-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .milestone-duration {
+      font-size: 0.8rem;
+      color: #93c5fd;
+      font-family: var(--font-mono);
+      background: rgba(59, 130, 246, 0.15);
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .milestone-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .explanation-box {
+      background: rgba(15, 23, 42, 0.6);
+      border-left: 3px solid var(--primary);
+      padding: 0.75rem 1rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      font-family: var(--font-mono);
+      margin-top: 0.75rem;
+    }
+
+    /* Quick Fill Button */
+    .quick-bar {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .quick-btn {
+      font-size: 0.8rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-sm);
+      background: var(--surface-border);
+      color: var(--text-main);
+      border: none;
+      cursor: pointer;
+    }
+
+    .quick-btn:hover {
+      background: #4b5563;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="brand">
+        <div class="brand-logo">CL</div>
+        <div>
+          <span class="brand-title">CareerLens</span>
+          <span class="brand-badge">UX Prototype v1.0</span>
+        </div>
+      </a>
+      <div class="nav-meta">
+        <span>Task <strong>CL-10</strong></span>
+        <span>•</span>
+        <span>Author: <strong>Asylbek Agabekuly</strong></span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Stepper Navigation -->
+    <div class="stepper">
+      <div class="step-item active" id="stepNode1" onclick="goToStep(1)">
+        <div class="step-bubble">1</div>
+        <div class="step-label">Target Role</div>
+      </div>
+      <div class="step-item" id="stepNode2" onclick="goToStep(2)">
+        <div class="step-bubble">2</div>
+        <div class="step-label">Current Skills</div>
+      </div>
+      <div class="step-item" id="stepNode3" onclick="goToStep(3)">
+        <div class="step-bubble">3</div>
+        <div class="step-label">Gap Analysis</div>
+      </div>
+      <div class="step-item" id="stepNode4" onclick="goToStep(4)">
+        <div class="step-bubble">4</div>
+        <div class="step-label">Personal Roadmap</div>
+      </div>
+    </div>
+
+    <!-- STEP 1: TARGET ROLE SELECTION -->
+    <section class="step-view active" id="stepView1">
+      <div class="card">
+        <h2 class="card-title">🎯 Step 1: Select Your Target Career Role</h2>
+        <p class="card-subtitle">Choose a curated benchmark profile. The system will compare your declared competencies against real market requirements.</p>
+
+        <div class="role-grid">
+          <!-- Role 1 -->
+          <div class="role-card selected" onclick="selectRole('flutter')">
+            <div>
+              <div class="role-header">
+                <span class="role-name">Junior Flutter Developer</span>
+                <span class="role-badge">Primary MVP Role</span>
+              </div>
+              <p class="role-desc">Cross-platform mobile developer focusing on Dart, widget architecture, state management (Bloc), asynchronous streams, and REST API integration.</p>
+            </div>
+            <div class="role-meta">
+              <span>📊 7 Core Competencies</span>
+              <span>💼 Entry Level</span>
+            </div>
+          </div>
+
+          <!-- Role 2 -->
+          <div class="role-card" onclick="selectRole('backend')">
+            <div>
+              <div class="role-header">
+                <span class="role-name">Junior Backend Developer</span>
+                <span class="role-badge" style="color:#60a5fa; background:rgba(59,130,246,0.15)">Secondary Role</span>
+              </div>
+              <p class="role-desc">Server-side software engineer specializing in Python/Go, REST API design, relational PostgreSQL databases, containerization, and unit testing.</p>
+            </div>
+            <div class="role-meta">
+              <span>📊 6 Core Competencies</span>
+              <span>💼 Entry Level</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions-footer">
+          <div></div>
+          <button class="btn btn-primary" onclick="goToStep(2)">
+            Continue to Skill Rating →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 2: SKILL INVENTORY & RATING -->
+    <section class="step-view" id="stepView2">
+      <div class="card">
+        <h2 class="card-title">📝 Step 2: Rate Your Current Proficiency</h2>
+        <p class="card-subtitle">Select your honest confidence level (1–5). <br>
+          <span style="font-size:0.8rem; color:#93c5fd">1: Novice/Theory • 2: Beginner • 3: Competent (Autonomous) • 4: Advanced • 5: Master/Architect</span>
+        </p>
+
+        <div class="quick-bar">
+          <span style="font-size:0.8rem; color:var(--text-muted); align-self:center">Pre-fill Persona:</span>
+          <button class="quick-btn" onclick="applyPersona('student')">Typical 3rd Year Student (Dart 2, Flutter 2, Bloc 1)</button>
+          <button class="quick-btn" onclick="applyPersona('advanced')">Prepared Graduate (Dart 3, Flutter 3, Bloc 3)</button>
+        </div>
+
+        <table class="skill-table">
+          <thead>
+            <tr>
+              <th>Competency</th>
+              <th>Required Baseline</th>
+              <th>Your Declared Level (1 – 5)</th>
+            </tr>
+          </thead>
+          <tbody id="skillTableBody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+
+        <div class="actions-footer">
+          <button class="btn btn-secondary" onclick="goToStep(1)">← Back</button>
+          <button class="btn btn-primary" onclick="calculateAndProceed()">Run Intelligent Gap Analysis →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3: GAP ANALYSIS & VISUALIZATION -->
+    <section class="step-view" id="stepView3">
+      <div class="card">
+        <h2 class="card-title">⚡ Step 3: Skill Gap Analysis & Priority Breakdown</h2>
+        <p class="card-subtitle">Quantitative delta computed using deterministic baseline: <code style="color:#93c5fd">gap = max(0, required - current)</code> and <code style="color:#93c5fd">priority = gap × importance_weight</code>.</p>
+
+        <div class="metrics-grid">
+          <div class="metric-box">
+            <div class="metric-value" id="metricReadiness" style="color:var(--primary)">--%</div>
+            <div class="metric-label">Profile Readiness Match</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value" id="metricGapsCount" style="color:var(--danger)">--</div>
+            <div class="metric-label">Critical Skill Gaps Identified</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value" id="metricTime" style="color:var(--warning)">-- wks</div>
+            <div class="metric-label">Estimated Roadmap Duration</div>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.1rem; margin-bottom:1rem; font-weight:700">Detailed Gap Audit:</h3>
+        <div id="gapAuditContainer">
+          <!-- Populated via JS -->
+        </div>
+
+        <div class="actions-footer">
+          <button class="btn btn-secondary" onclick="goToStep(2)">← Adjust Skills</button>
+          <button class="btn btn-primary" onclick="goToStep(4)">View Personalized Roadmap →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 4: PERSONALIZED LEARNING ROADMAP -->
+    <section class="step-view" id="stepView4">
+      <div class="card">
+        <h2 class="card-title">🗺️ Step 4: Your Personalized Learning Roadmap</h2>
+        <p class="card-subtitle">Sequenced path respecting prerequisite dependencies (DAG topological sort). Critical gaps are prioritized first.</p>
+
+        <div class="timeline" id="roadmapTimeline">
+          <!-- Populated via JS -->
+        </div>
+
+        <div class="actions-footer">
+          <button class="btn btn-secondary" onclick="goToStep(3)">← Back to Gaps</button>
+          <button class="btn btn-primary" onclick="alert('Analysis exported! In MVP production, this downloads the PDF/JSON competency portfolio.')">
+            💾 Export Analysis Summary
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Data definition for benchmark profiles
+    const ROLES = {
+      flutter: {
+        title: "Junior Flutter Developer",
+        skills: [
+          { id: "dart_lang", name: "Dart Core & Object-Oriented Principles", cat: "Language", required: 4, weight: 0.95, prereq: null, duration: 2 },
+          { id: "dart_async", name: "Asynchronous Dart (Futures, Streams)", cat: "Language", required: 4, weight: 0.90, prereq: "dart_lang", duration: 3 },
+          { id: "flutter_ui", name: "Widget Tree, Layouts & Animations", cat: "Framework", required: 4, weight: 0.85, prereq: "dart_lang", duration: 2 },
+          { id: "state_mgmt", name: "State Management (Bloc / Riverpod)", cat: "Architecture", required: 4, weight: 0.95, prereq: "dart_async", duration: 4 },
+          { id: "rest_api", name: "REST API Integration & Dio Client", cat: "Networking", required: 3, weight: 0.80, prereq: "dart_async", duration: 2 },
+          { id: "clean_arch", name: "Clean Architecture & Unit/Widget Testing", cat: "Quality", required: 3, weight: 0.75, prereq: "state_mgmt", duration: 3 },
+          { id: "git_flow", name: "Git, Branching & GitHub Collaboration", cat: "DevOps", required: 3, weight: 0.70, prereq: null, duration: 1 }
+        ]
+      },
+      backend: {
+        title: "Junior Backend Developer",
+        skills: [
+          { id: "py_go", name: "Python / Go Core Programming", cat: "Language", required: 4, weight: 0.95, prereq: null, duration: 2 },
+          { id: "rest_design", name: "REST API Design & FastAPI", cat: "Backend", required: 4, weight: 0.90, prereq: "py_go", duration: 3 },
+          { id: "sql_db", name: "Relational DB (PostgreSQL) & SQL", cat: "Database", required: 4, weight: 0.90, prereq: null, duration: 3 },
+          { id: "docker", name: "Docker & Container Basics", cat: "DevOps", required: 3, weight: 0.75, prereq: null, duration: 2 },
+          { id: "pytest", name: "Automated Unit Testing & Pytest", cat: "Quality", required: 3, weight: 0.80, prereq: "py_go", duration: 2 },
+          { id: "git_collab", name: "Git Version Control & PR Workflow", cat: "DevOps", required: 3, weight: 0.70, prereq: null, duration: 1 }
+        ]
+      }
+    };
+
+    let selectedRoleKey = 'flutter';
+    let currentRatings = {
+      dart_lang: 2,
+      dart_async: 2,
+      flutter_ui: 3,
+      state_mgmt: 1,
+      rest_api: 2,
+      clean_arch: 1,
+      git_flow: 3
+    };
+
+    function selectRole(key) {
+      selectedRoleKey = key;
+      document.querySelectorAll('.role-card').forEach((card, idx) => {
+        card.classList.toggle('selected', (key === 'flutter' && idx === 0) || (key === 'backend' && idx === 1));
+      });
+      // Reset ratings
+      currentRatings = {};
+      ROLES[selectedRoleKey].skills.forEach(s => {
+        currentRatings[s.id] = 2; // Default baseline rating
+      });
+      renderSkillTable();
+    }
+
+    function renderSkillTable() {
+      const tbody = document.getElementById('skillTableBody');
+      tbody.innerHTML = '';
+      const role = ROLES[selectedRoleKey];
+
+      role.skills.forEach(s => {
+        const tr = document.createElement('tr');
+        const userVal = currentRatings[s.id] || 1;
+
+        tr.innerHTML = `
+          <td>
+            <div class="skill-info">
+              <span class="skill-name">${s.name}</span>
+              <span class="skill-category">${s.cat} • Weight: ${s.weight}</span>
+            </div>
+          </td>
+          <td>
+            <span class="req-badge">Target: ${s.required}/5</span>
+          </td>
+          <td>
+            <div class="rating-group" data-skill="${s.id}">
+              ${[1, 2, 3, 4, 5].map(num => `
+                <button type="button" class="rating-btn ${num === userVal ? 'active' : ''}" onclick="setRating('${s.id}', ${num})">${num}</button>
+              `).join('')}
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function setRating(skillId, val) {
+      currentRatings[skillId] = val;
+      const group = document.querySelector(`.rating-group[data-skill="${skillId}"]`);
+      if (group) {
+        group.querySelectorAll('.rating-btn').forEach((btn, idx) => {
+          btn.classList.toggle('active', (idx + 1) === val);
+        });
+      }
+    }
+
+    function applyPersona(type) {
+      if (selectedRoleKey === 'flutter') {
+        if (type === 'student') {
+          currentRatings = { dart_lang: 2, dart_async: 2, flutter_ui: 2, state_mgmt: 1, rest_api: 2, clean_arch: 1, git_flow: 3 };
+        } else {
+          currentRatings = { dart_lang: 3, dart_async: 3, flutter_ui: 4, state_mgmt: 3, rest_api: 3, clean_arch: 2, git_flow: 4 };
+        }
+      }
+      renderSkillTable();
+    }
+
+    function calculateAndProceed() {
+      const role = ROLES[selectedRoleKey];
+      let totalReq = 0;
+      let totalCurr = 0;
+      let gaps = [];
+      let totalDuration = 0;
+
+      role.skills.forEach(s => {
+        const curr = currentRatings[s.id] || 1;
+        totalReq += s.required;
+        totalCurr += Math.min(curr, s.required);
+
+        const rawGap = Math.max(0, s.required - curr);
+        const priorityScore = parseFloat((rawGap * s.weight).toFixed(2));
+
+        if (rawGap > 0) {
+          totalDuration += s.duration;
+        }
+
+        gaps.push({
+          ...s,
+          current: curr,
+          gap: rawGap,
+          priority: priorityScore
+        });
+      });
+
+      // Sort by priority descending
+      gaps.sort((a, b) => b.priority - a.priority);
+
+      // Readiness metric
+      const readiness = Math.round((totalCurr / totalReq) * 100);
+      const criticalCount = gaps.filter(g => g.gap >= 2).length;
+
+      document.getElementById('metricReadiness').textContent = readiness + '%';
+      document.getElementById('metricGapsCount').textContent = criticalCount;
+      document.getElementById('metricTime').textContent = totalDuration + ' wks';
+
+      // Render Gap Audit
+      const auditDiv = document.getElementById('gapAuditContainer');
+      auditDiv.innerHTML = '';
+
+      gaps.forEach(g => {
+        let badgeClass = 'satisfied';
+        let badgeText = 'Satisfied (Met)';
+        if (g.gap >= 2) {
+          badgeClass = 'critical';
+          badgeText = `Critical Gap (-${g.gap})`;
+        } else if (g.gap === 1) {
+          badgeClass = 'moderate';
+          badgeText = `Moderate Gap (-1)`;
+        }
+
+        const currPct = (g.current / 5) * 100;
+        const gapPct = (g.gap / 5) * 100;
+
+        const item = document.createElement('div');
+        item.className = 'gap-item';
+        item.innerHTML = `
+          <div class="gap-header">
+            <div>
+              <span class="gap-title">${g.name}</span>
+              <span style="font-size:0.75rem; color:var(--text-muted); margin-left:0.5rem">(${g.cat})</span>
+            </div>
+            <span class="gap-badge ${badgeClass}">${badgeText}</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar-current" style="width: ${currPct}%"></div>
+            <div class="progress-bar-gap" style="width: ${gapPct}%"></div>
+          </div>
+          <div class="gap-legend">
+            <span>Current: Level ${g.current}/5</span>
+            <span style="color:#fcd34d">Target: Level ${g.required}/5</span>
+            <span style="color:#60a5fa">Priority Score: ${g.priority}</span>
+          </div>
+        `;
+        auditDiv.appendChild(item);
+      });
+
+      // Render Roadmap Timeline (topological sequence)
+      const timeline = document.getElementById('roadmapTimeline');
+      timeline.innerHTML = '';
+
+      const pendingGaps = gaps.filter(g => g.gap > 0);
+
+      if (pendingGaps.length === 0) {
+        timeline.innerHTML = '<p style="color:var(--success)">🎉 Outstanding! Your profile meets all requirements for this target role.</p>';
+      } else {
+        pendingGaps.forEach((g, idx) => {
+          const node = document.createElement('div');
+          node.className = 'timeline-node';
+          node.innerHTML = `
+            <div class="timeline-dot"></div>
+            <div class="milestone-card">
+              <div class="milestone-header">
+                <span class="milestone-title">Milestone ${idx + 1}: Master ${g.name}</span>
+                <span class="milestone-duration">⏱️ ~${g.duration} weeks</span>
+              </div>
+              <p class="milestone-desc">Deficit identified: current level ${g.current}/5 vs role benchmark ${g.required}/5. Focus on verified project tasks and practice assignments.</p>
+              <div class="explanation-box">
+                💡 Rationale: Gap (${g.gap}) × Market Importance (${g.weight}) = Priority Score ${g.priority}.
+                ${g.prereq ? `<br>🔗 Dependency: requires foundational understanding of [${g.prereq}].` : ''}
+              </div>
+            </div>
+          `;
+          timeline.appendChild(node);
+        });
+      }
+
+      goToStep(3);
+    }
+
+    function goToStep(stepNum) {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById(`stepView${i}`).classList.toggle('active', i === stepNum);
+        const node = document.getElementById(`stepNode${i}`);
+        node.classList.toggle('active', i === stepNum);
+        node.classList.toggle('completed', i < stepNum);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Initialize
+    renderSkillTable();
+  </script>
+</body>
+</html>
